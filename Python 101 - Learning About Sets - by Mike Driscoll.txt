@@ -1,0 +1,218 @@
+￼
+The Python Papers
+
+
+Subscribe
+Sign in
+
+Python 101 - Learning About Sets
+￼
+MIKE DRISCOLL
+JUL 26, 2023
+
+6
+
+Share
+
+A set data type is defined as an "unordered collection of distinct hashable objects" according to the Python 3 documentation. You can use a set for membership testing, removing duplicates from a sequence and computing mathematical operations, like intersection, union, difference, and symmetric difference.
+Because they are unordered collections, a set does not record element position or order of insertion. Because of that, they also do not support indexing, slicing or other sequence-like behaviors that you have seen with lists and tuples.
+The Python Papers is a reader-supported publication. To receive new posts and support my work, consider becoming a free or paid subscriber.
+
+
+
+
+
+
+
+
+
+Subscribe
+
+
+
+There are two types of set built-in to the Python language:
+	•	set - which is mutable 
+	•	frozenset - which is immutable and hashable 
+This article will focus on set.
+You will learn how to do the following with sets:
+	•	Creating a set 
+	•	Accessing set members 
+	•	Changing items 
+	•	Adding items 
+	•	Removing items 
+	•	Deleting a set 
+Let's get started by creating a set!
+Creating a Set
+Creating a set is pretty straightforward. You can create them by adding a series of comma-separated objects inside of curly braces or you can pass a sequence to the built-in set() function.
+Let's look at an example:
+>>> my_set = {"a", "b", "c", "c"}
+>>> my_set
+{'c', 'a', 'b'}
+>>> type(my_set)
+<class 'set'>
+A set uses the same curly braces that you used to create a dictionary. Note that instead of key: value pairs, you have a series of values. When you print out the set, you can see that duplicates were removed automatically.
+Now let's try creating a set using set():
+>>> my_list = [1, 2, 3, 4]
+>>> my_set = set(my_list)
+>>> my_set
+{1, 2, 3, 4}
+>>> type(my_set)
+<class 'set'>
+In this example, you created a list and then cast it to a set using set(). If there had been any duplicates in the list, they would have been removed.
+Now let's move along and see some of the things that you can do with this data type.
+Accessing Set Members
+You can check if an item is in a set by using Python's in operator:
+>>> my_set = {"a", "b", "c", "c"}
+>>> "a" in my_set
+True
+Sets do not allow you to use slicing or the like to access individual members of the set. Instead, you need to iterate over a set. You can do that using a loop, such as a while loop or a for loop.
+>>> for item in my_set:
+...     print(item)
+... 
+c
+a
+b
+This will loop over each item in the set one at a time and print it out.
+You can access items in sets much faster than lists. A Python list will iterate over each item in a list until it finds the item you are looking for. When you look for an item in a set, it acts much like a dictionary and will find it immediately or not at all.
+Changing Items
+While both dict and set require hashable members, a set has no value to change. However, you can add items to a set as well as remove them. Let's find out how!
+Adding Items
+There are two ways to add items to a set:
+	•	add() 
+	•	update() 
+Let's try adding an item using add():
+>>> my_set = {"a", "b", "c", "c"}
+>>> my_set.add('d')
+>>> my_set
+{'d', 'c', 'a', 'b'}
+That was easy! You were able to add an item to the set by passing it into the add() method.
+If you'd like to add multiple items all at once, then you should use update() instead:
+>>> my_set = {"a", "b", "c", "c"}
+>>> my_set.update(['d', 'e', 'f'])
+>>> my_set
+{'a', 'c', 'd', 'e', 'b', 'f'}
+Note that update() will take any iterable you pass to it. So it could take, for example, a list, tuple or another set.
+Removing Items
+You can remove items from sets in several different ways.
+You can use:
+	•	remove() 
+	•	discard() 
+	•	pop() 
+Let's go over each of these in the following sub-sections!
+Using .remove()
+The remove() method will attempt to remove the specified item from a set:
+>>> my_set = {"a", "b", "c", "c"}
+>>> my_set.remove('a')
+>>> my_set
+{'c', 'b'}
+If you happen to ask the set to remove() an item that does not exist, you will receive an error:
+>>> my_set = {"a", "b", "c", "c"}
+>>> my_set.remove('f')
+Traceback (most recent call last):
+  Python Shell, prompt 208, line 1
+builtins.KeyError: 'f'
+Now let's see how the closely related discard() method works!
+Using .discard()
+The discard() method works in almost exactly the same way as remove() in that it will remove the specified item from the set:
+>>> my_set = {"a", "b", "c", "c"}
+>>> my_set.discard('b')
+>>> my_set
+{'c', 'a'}
+The difference with discard() though is that it won't throw an error if you try to remove an item that doesn't exist:
+>>> my_set = {"a", "b", "c", "c"}
+>>> my_set.discard('d')
+>>>
+If you want to be able to catch an error when you attempt to remove an item that does not exist, use remove(). If that doesn't matter to you, then discard() might be a better choice.
+Using .pop()
+The pop() method will remove and return an arbitrary item from the set:
+>>> my_set = {"a", "b", "c", "c"}
+>>> my_set.pop()
+'c'
+>>> my_set
+{'a', 'b'}
+If your set is empty and you try to pop() an item out, you will receive an error:
+>>> my_set = {"a"}
+>>> my_set.pop()
+'a'
+>>> my_set.pop()
+Traceback (most recent call last):
+  Python Shell, prompt 219, line 1
+builtins.KeyError: 'pop from an empty set'
+This is very similar to the way that pop() works with the list data type, except that with a list, it will raise an IndexError. Also lists are ordered while sets are not, so you can't be sure what you will be removing with pop() since sets are not ordered.
+Clearing or Deleting a Set
+Sometimes you will want to empty a set or even completely remove it.
+To empty a set, you can use clear():
+>>> my_set = {"a", "b", "c", "c"}
+>>> my_set.clear()
+>>> my_set
+set()
+If you want to remove the set completely, then you can use Python's del built-in:
+>>> my_set = {"a", "b", "c", "c"}
+>>> del my_set
+>>> my_set
+Traceback (most recent call last):
+  Python Shell, prompt 227, line 1
+builtins.NameError: name 'my_set' is not defined
+Wrapping Up
+Sets are an excellent data type that is used for pretty specific situations. You will find sets most useful for de-duplicating lists or tuples or by using them to find differences between multiple lists.
+In this article, you learned about the following:
+	•	Creating a set 
+	•	Accessing set members 
+	•	Changing items 
+	•	Adding items 
+	•	Removing items 
+	•	Deleting a set 
+Any time you need to use a set-like operation, you should take a look at this data type. However, in all likelihood, you will be using lists, dictionaries, and tuples much more often.
+The Python Papers is a reader-supported publication. To receive new posts and support my work, consider becoming a free or paid subscriber.
+
+
+
+
+
+
+
+
+
+Subscribe
+
+
+
+
+
+6
+
+Share
+Comments
+
+￼
+
+
+Top
+New
+Community
+
+No posts
+
+Ready for more?
+
+
+
+
+
+
+
+
+
+Subscribe
+
+
+
+
+© 2023 Mike Driscoll
+Privacy ∙ Terms ∙ Collection notice
+
+Start WritingGet the app
+Substack is the home for great writing
+
+
+This site requires JavaScript to run correctly. Please turn on JavaScript or unblock scripts 
