@@ -1,4 +1,5 @@
 𝟭. Data Scientist Roadmap: https://lnkd.in/e4sqsyy
+
 𝟮. Learn Data Science: https://lnkd.in/eU-K2sV3
 𝟯. Awesome Python: https://lnkd.in/ehVxCV-p
 𝟰. Data Science in Python: https://lnkd.in/esYAmxea
