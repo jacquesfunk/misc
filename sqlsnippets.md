@@ -66,3 +66,31 @@ SELECT
         ELSE PurchaseAmount
     END AS FinalAmount
 FROM Customers;
+
+# Recursive query example
+WITH RECURSIVE employee_hierarchy AS (
+  SELECT employee_id, first_name, last_name, manager_id, 1 AS level
+  FROM employees
+  WHERE manager_id IS NULL
+
+  UNION ALL
+
+  SELECT e.employee_id, e.first_name, e.last_name, e.manager_id, eh.level + 1
+  FROM employees e
+  JOIN employee_hierarchy eh ON e.manager_id = eh.employee_id
+)
+SELECT first_name, last_name, level
+FROM employee_hierarchy;
+
+# Subquery factoring
+WITH cte_product_sales AS (
+  SELECT product_id, SUM(quantity * unit_price) AS total_sales
+  FROM order_items oi
+  JOIN orders o ON oi.order_id = o.order_id
+  WHERE o.order_date >= '2022-01-01' AND o.order_date < '2023-01-01'
+  GROUP BY product_id
+)
+SELECT p.product_name, coalesce(ps.total_sales, 0) AS total_sales
+FROM products p
+LEFT JOIN cte_product_sales ps ON p.product_id = ps.product_id;
+```
