@@ -93,4 +93,15 @@ WITH cte_product_sales AS (
 SELECT p.product_name, coalesce(ps.total_sales, 0) AS total_sales
 FROM products p
 LEFT JOIN cte_product_sales ps ON p.product_id = ps.product_id;
+
+# Lateral join
+SELECT p.product_name, p.category_id,
+  (SELECT category_name
+   FROM categories c
+   WHERE c.category_id = p.category_id) AS category_name,
+  (SELECT array_agg(tag_name ORDER BY tag_name)
+   FROM product_tags pt
+   JOIN tags t ON pt.tag_id = t.tag_id
+   WHERE pt.product_id = p.product_id) AS tags
+FROM products p;
 ```
