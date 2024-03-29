@@ -20,6 +20,24 @@ HAVING COUNT(*) > 1;
 # Data analysis
 
 ```
+# IN operator filters records based on a specified set of values
+SELECT column1 FROM your_table WHERE column1 IN ('value1', 'value2');
+
+# Subquery with IN Clause
+SELECT *
+FROM employees
+WHERE department_id IN (SELECT department_id FROM departments WHERE department_name = 'Sales');
+
+# COALESCE() returns the first non-NULL value in a list
+SELECT COALESCE(column1, 'default_value') FROM your_table;
+
+# Self-Join for Hierarchy
+SELECT e.employee_name, m.employee_name AS manager_name
+FROM employees e
+JOIN employees m ON e.manager_id = m.employee_id;
+
+
+
 # Window function
 SELECT order_date, sales_amount, SUM(sales_amount) OVER (ORDER BY order_date) AS running_total
 FROM sales;
@@ -67,6 +85,11 @@ SELECT
     END AS FinalAmount
 FROM Customers;
 
+# ROLLUP for Hierarchical Aggregation
+SELECT region, MONTH(order_date) AS month, SUM(total_sales) AS monthly_sales
+FROM sales
+GROUP BY ROLLUP(region, MONTH(order_date));
+
 # Recursive query example
 WITH RECURSIVE employee_hierarchy AS (
   SELECT employee_id, first_name, last_name, manager_id, 1 AS level
@@ -104,4 +127,11 @@ SELECT p.product_name, p.category_id,
    JOIN tags t ON pt.tag_id = t.tag_id
    WHERE pt.product_id = p.product_id) AS tags
 FROM products p;
+```
+# Dates
+```
+# Calculating the difference between two timestamps
+SELECT TIMESTAMPDIFF(MINUTE, start_time, end_time) AS duration_minutes;
+
+
 ```
