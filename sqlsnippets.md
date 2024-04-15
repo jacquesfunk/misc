@@ -20,40 +20,7 @@ HAVING COUNT(*) > 1;
 # Data analysis
 
 ```
-# IN operator filters records based on a specified set of values
-SELECT column1 FROM your_table WHERE column1 IN ('value1', 'value2');
-
-# Subquery with IN Clause
-SELECT *
-FROM employees
-WHERE department_id IN (SELECT department_id FROM departments WHERE department_name = 'Sales');
-
-# COALESCE() returns the first non-NULL value in a list
-SELECT COALESCE(column1, 'default_value') FROM your_table;
-
-# Self-Join for Hierarchy
-SELECT e.employee_name, m.employee_name AS manager_name
-FROM employees e
-JOIN employees m ON e.manager_id = m.employee_id;
-
-
-
-# Window function
-SELECT order_date, sales_amount, SUM(sales_amount) OVER (ORDER BY order_date) AS running_total
-FROM sales;
-
-# Pivot data
-SELECT *
-FROM (
-    SELECT TO_CHAR(order_date, 'YYYY-MM') AS month, product_category, sales_amount
-    FROM sales
-) AS pivoted
-PIVOT (
-    SUM(sales_amount)
-    FOR product_category IN ('Electronics', 'Clothing', 'Books')
-) AS pivoted_sales;
-
-# Categorize data
+# Categorize data with CASE statements
 SELECT 
     SaleAmount,
     CASE 
@@ -74,16 +41,79 @@ SELECT
     END AS FinalAmount
 FROM Customers;
 
-# Advanced use of CASE WHEN
-SELECT 
-    CustomerID,
-    PurchaseAmount,
-    CASE 
-        WHEN CustomerStatus = 'VIP' AND PurchaseAmount > 1000 THEN PurchaseAmount * 0.8
-        WHEN CustomerStatus = 'Regular' AND PurchaseAmount > 1000 THEN PurchaseAmount * 0.9
-        ELSE PurchaseAmount
-    END AS FinalAmount
-FROM Customers;
+# Using CASE in WHERE Clause
+SELECT *
+FROM customers
+WHERE CASE
+    WHEN country = 'USA' THEN sales_region = 'North America'
+    WHEN country = 'UK' THEN sales_region = 'Europe'
+    ELSE FALSE
+END;
+
+# Using CASE with Aggregate Functions
+SELECT
+    department,
+    COUNT(CASE WHEN salary > 50000 THEN 1 END) AS high_salary_count,
+    COUNT(CASE WHEN salary <= 50000 THEN 1 END) AS low_salary_count
+FROM employees
+GROUP BY department;
+
+# Nesting CASE Statements
+SELECT
+    order_id,
+    CASE
+        WHEN payment_status = 'paid' THEN
+            CASE
+                WHEN shipping_status = 'shipped' THEN 'Delivered'
+                ELSE 'Processing'
+            END
+        ELSE 'Pending'
+    END AS order_status
+FROM orders;
+
+# Using CASE in JOIN Conditions
+SELECT
+    o.order_id,
+    o.order_date,
+    c.customer_name
+FROM orders o
+JOIN customers c
+ON CASE
+    WHEN o.customer_id = 1 THEN c.customer_id = o.customer_id
+    WHEN o.customer_id = 2 THEN c.country = 'USA'
+    ELSE c.country = 'UK'
+END;
+
+# IN operator filters records based on a specified set of values
+SELECT column1 FROM your_table WHERE column1 IN ('value1', 'value2');
+
+# Subquery with IN Clause
+SELECT *
+FROM employees
+WHERE department_id IN (SELECT department_id FROM departments WHERE department_name = 'Sales');
+
+# COALESCE() returns the first non-NULL value in a list
+SELECT COALESCE(column1, 'default_value') FROM your_table;
+
+# Self-Join for Hierarchy
+SELECT e.employee_name, m.employee_name AS manager_name
+FROM employees e
+JOIN employees m ON e.manager_id = m.employee_id;
+
+# Window function
+SELECT order_date, sales_amount, SUM(sales_amount) OVER (ORDER BY order_date) AS running_total
+FROM sales;
+
+# Pivot data
+SELECT *
+FROM (
+    SELECT TO_CHAR(order_date, 'YYYY-MM') AS month, product_category, sales_amount
+    FROM sales
+) AS pivoted
+PIVOT (
+    SUM(sales_amount)
+    FOR product_category IN ('Electronics', 'Clothing', 'Books')
+) AS pivoted_sales;
 
 # ROLLUP for Hierarchical Aggregation
 SELECT region, MONTH(order_date) AS month, SUM(total_sales) AS monthly_sales
