@@ -255,6 +255,11 @@ result = (
 )
 print(result)
 
+# # Normalize numeric columns
+from sklearn.preprocessing import MinMaxScaler
+scaler = MinMaxScaler()
+df[['numeric_column']] = scaler.fit_transform(df[['numeric_column']]
+
 # Create permutations
 from itertools import permutations
 paths = permutations([1, 2, 3])  # Generate all permutations of the list [1, 2, 3]
