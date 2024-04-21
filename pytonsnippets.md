@@ -97,6 +97,24 @@ df.groupby("death")[
 # value counts of each category
 df["Pclass"].value_counts(sort=True, ascending=True, normalize=True)
 
+# Melted the data
+melted_df_single_var = pd.melt(df, id_vars=['Date', 'City'], var_name='Variable', value_name='Value')
+
+# Melt the data with multiple value_vars
+melted_df = pd.melt(df, id_vars=['Date', 'City'], value_vars=['Temperature', 'Humidity'], var_name='Variable', value_name='Value')
+
+# Stack - pivot the innermost column index to become the innermost row index
+stacked_df = df.set_index(['Date', 'City']).stack()
+
+# Unstack - pivot the innermost row index to become the innermost column index
+unstacked_df = stacked_df.unstack()
+
+# Pivot Table
+pivot_table_df = df.pivot_table(index='Date', columns='City', values=['Temperature', 'Humidity'], aggfunc='mean')
+
+# Wide to Long
+long_df = pd.wide_to_long(df, stubnames=['Temperature', 'Humidity'], i=['Date', 'City'], j='Variable', sep='_').reset_index()
+
 pd.crosstab(
     df["league_rank"], df["international_reputation"]
 )  # gives you a frequency table that is a cross-tabulation of two variables
@@ -116,7 +134,6 @@ data = {
 df = pd.DataFrame(data).set_index("date")
 
 df["price"].pct_change()
-
 
 # Calculate rolling mean with a 7-day window
 rolling_mean = data['value'].rolling(window=7).mean()
@@ -221,6 +238,9 @@ with open('myfile.txt') as file:
 # Find out number of dimensions in array
 df.ndim
 
+# generate equally spaced values within a given interval
+np.arange(5, 11, 2)
+
 # Create linearly spaced array
 linear_spaced = np.linspace(0, 1, 5)  # 5 values from 0 to 1
 
@@ -230,6 +250,16 @@ row = reshaped[1, :]  # Retrieve the second row of 'reshaped'
 
 # Boolean indexing
 filtered = a[a > 2]  # Elements of 'a' greater than 2
+
+# transpose a NumPy array
+a = np.arange(12).reshape((6, 2))
+a.transpose()
+
+# sort the array in-place
+np.sort(a) ## sort based on rows
+np.sort(a, axis=None) ## sort the flattened array
+np.sort(a, axis=0) ## sort based on columns
+
 ```
 
 # Regular expressions
