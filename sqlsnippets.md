@@ -20,6 +20,10 @@ HAVING COUNT(*) > 1;
 # Data analysis
 
 ```
+# Window function to rank categorical variable
+SELECT * , ROW_NUMBER() OVER(PARTITION BY position ORDER BY salary DESC) AS employee_rank
+FROM employees;
+
 # Categorize data with CASE statements
 SELECT 
     SaleAmount,
@@ -29,6 +33,14 @@ SELECT
         ELSE 'Low'
     END AS SaleLevel
 FROM Sales;
+
+# Window function to find duplicate rows
+WHERE id IN (
+SELECT id
+ROW NUMBER() OVER(PARTITIon by VAR1, VAR2) as rownum
+FROM table) as sub
+WHERE rownum >1
+);
 
 # Categorizing with CASE WHEN
 SELECT 
@@ -163,5 +175,43 @@ FROM products p;
 # Calculating the difference between two timestamps
 SELECT TIMESTAMPDIFF(MINUTE, start_time, end_time) AS duration_minutes;
 
+
+```
+# Redshift specific
+```
+# Pivot
+SELECT
+  id, 
+  has_homepage::boolean, 
+  has_contacts_page::boolean, 
+  has_about_page::boolean
+FROM (SELECT id, page_type FROM user_pages WHERE is_active) 
+PIVOT(COUNT(*) FOR page_type IN ('home' AS has_homepage, 'contact' AS has_contact_page, 'about' AS has_about_page))
+
+# LTRIM allows you to trim a specified string from the beginning of a text field
+SELECT
+  LTRIM('airbyte_', source_id) AS source_id,
+  LTRIM('airbyte_', source_name) AS source_name 
+FROM source_data
+
+# NVL2 allows you to specify a column name, a value to return if the column’s value is NOT NULL, and a value to return if the column’s value is NULL.
+SELECT 
+  user_id, 
+  NVL2(user_email, user_email, account_email) AS email_address 
+FROM users
+
+# JSON_EXTRACT_PATH_TEXT allows you to extract the value of a specified key, with the option of returning NULL for records that may not have that key
+SELECT
+  user_id,
+  JSON_EXTRACT_PATH_TEXT(user_contact_info, email, TRUE) AS user_email 
+FROM users
+
+# NULLIF allows you to compare two arguments and return NULL if they are equal
+SELECT
+  user_id, 
+  user_email, 
+  account_email
+FROM users
+WHERE NULLIF(user_email, account_email) IS NOT NULL
 
 ```
