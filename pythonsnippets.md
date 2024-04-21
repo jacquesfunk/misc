@@ -51,6 +51,11 @@ df.query("shooting > passing")
 # Show all dtypes of df columns
 df.dtypes
 
+# Find rows where string starts with
+df[df.first_name.str.startswith("J")]
+
+
+
 # select the variables or columns of a certain data type
 df.select_dtypes(include="int64")
 
