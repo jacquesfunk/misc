@@ -84,6 +84,24 @@ df.count(level="Pclass")
 ## Totals and grouping
 
 ```
+# Rolling Methods
+## rolling sum
+data["rolling_sum_2"] = data.rolling(window = 2).Sales.sum()
+
+## rolling sum over 2 days
+data["rolling_sum_2days"] = data.rolling(window = '2d', on = "Date").Sales.sum()
+ 
+## grouped rolling sum
+
+data["rolling_sum_grouped"] = data.groupby("Payment_type").rolling(window = 2).\
+                              Sales.sum().reset_index().set_index("level_1").\
+                              sort_index()["Sales"]
+
+## rolling mean aka moving average
+data["Date"] = pd.to_datetime(data["Date"])
+data["rolling_avg_3days"] = data.rolling(window = 6, min_periods=1).Sales.mean()
+
+
 # provides you with the cumulative sum of all the values of the previous rows
 df[["value_eur", "wage_eur"]].cumsum()
 
@@ -296,6 +314,29 @@ print(replaced_text)
 ## Misc
 
 ```
+# capitalize text
+capitalized_text = text.capitalize()
+
+# generate a GUID
+import uuid
+guid = uuid.uuid4()
+
+# check for leap year
+def is_leap_year(year): return (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0)
+
+# Convert F to C
+celsius = (fahrenheit - 32) * 5/9
+
+# Create progress bar
+import time from tqdm
+import tqdm
+for i in tqdm(range(100)): time.sleep(0.1)
+
+# Get current working directory
+import os
+
+cwd = os.getcwd()
+
 # Chain custom functions
 result = (
     df.pipe(subtract_federal_tax)
