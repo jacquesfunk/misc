@@ -60,6 +60,13 @@ df["random_col"].where(df["random_col"] > 50)
 # used to find out the unique values of a categorical column
 df.skill_moves.unique()
 
+# remove duplicates from a list
+unique_list = list(set(numbers))
+
+# find most common element
+from collections import Counter
+most_common = Counter(numbers).most_common(1)
+
 # make a subset of the dataset that will contain only a few nationalities of players using .isin() function
 nationality = ["Argentina", "Portugal", "Sweden", "England"]
 df[df.nationality.isin(nationality)]
@@ -140,6 +147,11 @@ rolling_mean = data['value'].rolling(window=7).mean()
 
 # Compute exponential moving average (EMA)
 ema = data['value'].ewm(span=10).mean()
+
+# find intersection of sets
+set1 = {1, 2, 3}
+set2 = {3, 4, 5}
+intersection = set1 & set2
 ```
 
 ## Update dataset
@@ -147,6 +159,17 @@ ema = data['value'].ewm(span=10).mean()
 ```
 # When we reset the index, the old index is added as a column, and a new sequential index is used:
 df.reset_index(names=['classes', 'names'])
+
+# slice list
+subset = numbers[2:5]
+
+# list comprehension
+squared_dict = {x: x**2 for x in range(5)}
+
+# zip lists
+names = ['Alice', 'Bob', 'Charlie']
+ages = [25, 30, 35]
+person_info = dict(zip(names, ages))
 
 # Append dataframes using result
 result = df1.append([df2, df3])
