@@ -1,0 +1,7 @@
+.First <- function() {
+  path_to_libraries <- "C:/Users/mahmad/R/R-Library" # REPLACE <username> with your user folder!
+  .libPaths(c(path_to_libraries, .libPaths()))
+  library(tidyverse)
+  library(crayon)
+  library(pillar)
+}
