@@ -1,3 +1,125 @@
+# Polars
+
+## EDA
+
+```
+# Get a mapping of column names to their data type
+df.schema
+
+# Get the dataframe's shape
+df.shape
+
+# Get list of column names
+df.columns
+
+# Get the first x rows of a dataset
+df.head(3)
+
+# Count number of rows
+df.height
+
+# Count number of columns
+df.width
+
+# Get info on dataset
+df.describe()
+
+# Counts dupe rows
+df.is_duplicated()
+
+# Counts number of unique rows
+expr_unique_subset = pl.struct("a", "b").n_unique()
+
+# Count null values per column
+df.null_count()
+
+# Count non-null values in each column
+df.count()
+
+# Count unique values in each group
+df.group_by("d", maintain_order=True).n_unique()
+```
+
+## Update dataset
+
+```
+# Add columns to dataframe by passing a list of expressions
+df.with_columns(
+    [
+        (pl.col("a") ** 2).alias("a^2"),
+        (pl.col("b") / 2).alias("b/2"),
+        (pl.col("c").not_()).alias("not c"),
+    ]
+
+# Set column names
+df.columns = ["apple", "banana", "orange"]
+
+# Transpose data
+df.transpose(include_header=True)
+
+# Remove columns from df
+df.drop(["bar", "ham"])
+
+# Drop a subset of columns, as defined by name or with a selector
+df.drop_nulls(subset=cs.integer())
+
+# Rename columns
+df.rename({"foo": "apple"})
+
+# Add column showing % change between rows
+df.with_columns(pl.col("a").pct_change().alias("pct_change"))
+
+# Count the occurrences of unique values in a column
+df.select(pl.col("color").value_counts())
+```
+
+## Filters and queries 
+
+```
+# Iterate over the groups of the group by operation
+for name, data in df.group_by(["foo"]):
+    print(name)
+    print(data)
+
+# Compute aggregations for each group of a group by operation
+df.group_by("a").agg(pl.col("b"), pl.col("c"))
+
+# Compute multiple aggregates at once by passing a list of expressions
+df.group_by("a").agg([pl.sum("b"), pl.mean("c")])
+
+# Compute the sum of a column for each group
+df.group_by("a").agg(pl.col("b").sum())
+
+# Filter on multiple conditions
+df.filter((pl.col("foo") < 3) & (pl.col("ham") == "a"))
+
+# Create a spreadsheet-style pivot table as a DataFrame
+df.pivot(index="foo", columns="bar", values="baz", aggregate_function="sum")
+
+# Pivot using selectors to determine the index/values/columns
+df.pivot(
+    index=cs.string(),
+    columns=cs.string(),
+    values=cs.numeric(),
+    aggregate_function="sum",
+    sort_columns=True,
+).sort(
+    by=cs.string(),
+)
+
+# Select columns from df
+df.select(["foo", "bar"])
+
+# Sort by multiple columns
+df.sort("c", "a", descending=[False, True])
+```
+
+# Numpy
+```
+# Return pairwise Pearson product-moment correlation coefficients between columns
+df.corr()
+```
+
 #  Pandas
 
 ## EDA
@@ -53,8 +175,6 @@ df.dtypes
 
 # Find rows where string starts with
 df[df.first_name.str.startswith("J")]
-
-
 
 # select the variables or columns of a certain data type
 df.select_dtypes(include="int64")
