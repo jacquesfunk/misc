@@ -569,29 +569,6 @@ from sklearn.preprocessing import MinMaxScaler
 scaler = MinMaxScaler()
 df[['numeric_column']] = scaler.fit_transform(df[['numeric_column']]
 
-# Create permutations
-from itertools import permutations
-paths = permutations([1, 2, 3])  # Generate all permutations of the list [1, 2, 3]
-for path in paths:
-    print(path)
-
-# Create a DataFrame from a JSON file
-import json
-
-with open("data.json") as f:
-    data = json.load(f)
-
-data
-# output
-{'data': [{'id': 101,
-   'category': {'level_1': 'code design', 'level_2': 'method design'},
-   'priority': 9},
-  {'id': 102,
-   'category': {'level_1': 'error handling', 'level_2': 'exception logging'},
-   'priority': 8}]}
-
-df = pd.json_normalize(data, "data")
-
 # pretty printing
 import pprint
 data = {'a': [1, 2, 3], 'b': [4, 5, 6]}
