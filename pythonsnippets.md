@@ -51,8 +51,25 @@ df.with_columns(
         (pl.col("c").not_()).alias("not c"),
     ]
 
+# Sort by multiple columns
+df.sort("c", "a", descending=[False, True])
+
 # Set column names
 df.columns = ["apple", "banana", "orange"]
+
+# Fill floating point NaN value with a fill value
+df.with_columns(pl.col("b").fill_nan(0))
+
+# Filter the expression based on one or more predicate expressions.
+# The original order of the remaining elements is preserved.
+# Elements where the filter does not evaluate to True are discarded, including nulls.
+df.group_by("group_col").agg(
+    lt=pl.col("b").filter(pl.col("b") < 2).sum(),
+    gte=pl.col("b").filter(pl.col("b") >= 2).sum(),
+).sort("group_col")
+
+# Replace multiple values by passing sequences to the old and new parameters
+df.with_columns(replaced=pl.col("a").replace([2, 3], [100, 200]))
 
 # Transpose data
 df.transpose(include_header=True)
@@ -69,11 +86,74 @@ df.rename({"foo": "apple"})
 # Add column showing % change between rows
 df.with_columns(pl.col("a").pct_change().alias("pct_change"))
 
+# Sum multiple columns
+df.select(pl.sum("a", "c"))
+
+# Sum all values horizontally across columns
+df.with_columns(sum=pl.sum_horizontal("a", "b"))
+
 # Count the occurrences of unique values in a column
-df.select(pl.col("color").value_counts())
+df.select(pl.n_unique("b", "c"))
+
+# Generate an index column by using len in conjunction with int_range()
+df.select(
+    pl.int_range(pl.len(), dtype=pl.UInt32).alias("index"),
+    pl.all(),
+)
+
+# Get the maximum value horizontally across columns
+df.with_columns(max=pl.max_horizontal("a", "b"))
+shape: (3, 4)
 ```
 
-## Filters and queries 
+## Categorical Filters and queries 
+
+```
+# Replace all matching regex/literal substrings with a new string value
+df.with_columns(pl.col("text").str.replace_all("a", "-"))
+
+# apply case-insensitive string replacement
+df.with_columns(
+    pl.col("weather").str.replace_all(
+        r"(?i)foggy|rainy|cloudy|snowy", "Sunny"
+    )
+)
+# split text to columns using delimiter
+df.with_columns(
+    pl.col("s").str.split(by="_").alias("split"))
+
+# Remove leading and trailing characters
+df.with_columns(foo_stripped=pl.col("foo").str.strip_chars())
+
+# Count characters in all strings in a column
+df.with_columns(
+    pl.col("a").str.len_chars().alias("n_chars"))
+
+# Check if string contains a substring that matches a pattern and doesn't use regex
+df.select(pl.col("txt").str.contains("rab$", literal=True).alias("literal"))
+
+# determines if any of the patterns find a match
+df = pl.DataFrame(
+    {
+        "lyrics": [
+            "Everybody wants to rule the world",
+            "Tell me what you want, what you really really want",
+            "Can you feel the love tonight",
+        ]
+    }
+)
+df.with_columns(
+    pl.col("lyrics").str.contains_any(["you", "me"]).alias("contains_any")
+
+# Return the index position of the first substring matching a pattern.
+df.select(
+    pl.col("txt"),
+    pl.col("txt").str.find("a|e").alias("a|e (regex)"),
+    pl.col("txt").str.find("e", literal=True).alias("e (lit)"),
+)
+
+```
+## Numerical Filters and queries 
 
 ```
 # Iterate over the groups of the group by operation
@@ -110,13 +190,23 @@ df.pivot(
 # Select columns from df
 df.select(["foo", "bar"])
 
-# Sort by multiple columns
-df.sort("c", "a", descending=[False, True])
+# Start a when-then-otherwise expression
+df.with_columns(pl.when(pl.col("foo") > 2).then(1).otherwise(-1).alias("val"))
+
+# Window function for grouping by single column
+df.with_columns(
+    pl.col("c").max().over("a").name.suffix("_max"),
+)
+
+# Window function for grouping by multiple columns by passing a list of column names or expressions
+df.with_columns(
+    pl.col("c").min().over(["a", "b"]).name.suffix("_min"),
+)
 ```
 
-# Numpy
+## Numpy
 ```
-# Return pairwise Pearson product-moment correlation coefficients between columns
+# Return pairwise Pearson product-moment correlation coefficients between columns. Requires numpy to be installed.
 df.corr()
 ```
 
