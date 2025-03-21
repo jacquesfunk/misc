@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+<head>
+<title>Feed Subscriptions</title>
+</head>
+<body>
+      <outline text="SQL Shack - articles about database auditing, server performance, data recovery, and more » Feed" title="SQL Shack - articles about database auditing, server performance, data recovery, and more » Feed" type="rss" 
+            xmlUrl="https://www.sqlshack.com/feed/" htmlUrl="https://www.sqlshack.com/"/>
+      <outline text="Brent Ozar Unlimited® » Feed" title="Brent Ozar Unlimited® » Feed" type="rss" 
+            xmlUrl="https://www.brentozar.com/feed/" htmlUrl="https://www.brentozar.com"/>
+      <outline text="LittleKendra.com" title="LittleKendra.com" type="rss" 
+            xmlUrl="https://littlekendra.com/index.xml"/>
+      <outline text="SQLServerCentral » Feed" title="SQLServerCentral » Feed" type="rss" 
+            xmlUrl="https://www.sqlservercentral.com/feed" htmlUrl="https://www.sqlservercentral.com"/>
+      <outline text="DataEngineering.py" title="DataEngineering.py" type="rss" 
+            xmlUrl="https://blog.brilliantprogrammer.com/feed" htmlUrl="https://blog.brilliantprogrammer.com?source=rss----41c5500698a9---4"/>
+      <outline text="Confessions of a Data Guy » Feed" title="Confessions of a Data Guy » Feed" type="rss" 
+            xmlUrl="https://www.confessionsofadataguy.com/feed/" htmlUrl="https://www.confessionsofadataguy.com/"/>
+      <outline text="ThatJeffSmith" title="ThatJeffSmith" type="rss" 
+            xmlUrl="https://follow.it/i-m-that-jeff-smith-a-guy-at-oracle-who-helps-you-with-data/rss" htmlUrl="https://follow.it/i-m-that-jeff-smith-a-guy-at-oracle-who-helps-you-with-data"/>
+      <outline text="Regenerative » Feed" title="Regenerative » Feed" type="rss" 
+            xmlUrl="https://regenerativetoday.com/feed/" htmlUrl="https://regenerativetoday.com"/>
+      <outline text="Counting Stuff" title="Counting Stuff" type="rss" 
+            xmlUrl="https://www.counting-stuff.com/rss/" htmlUrl="https://www.counting-stuff.com/"/>
+      <outline text="The Invent with Python Blog Atom Feed" title="The Invent with Python Blog Atom Feed" type="rss" 
+            xmlUrl="https://inventwithpython.com/blog/feeds/all.atom.xml" htmlUrl="https://inventwithpython.com/blog/"/>
+      <outline text="Python Insider - RSS" title="Python Insider - RSS" type="rss" 
+            xmlUrl="https://blog.python.org/feeds/posts/default?alt=rss" htmlUrl="https://pythoninsider.blogspot.com/"/>
+      <outline text="Mouse Vs Python » Feed" title="Mouse Vs Python » Feed" type="rss" 
+            xmlUrl="https://www.blog.pythonlibrary.org/feed/" htmlUrl="https://www.blog.pythonlibrary.org/"/>
+      <outline text="Planet Python" title="Planet Python" type="rss" 
+            xmlUrl="https://planetpython.org/rss20.xml" htmlUrl="http://planetpython.org/"/>
+      <outline text="Mathspp" title="Mathspp" type="rss" 
+            xmlUrl="https://mathspp.com/blog.rss" htmlUrl="https://mathspp.com/blog"/>
+      <outline text="The Beautiful Mess" title="The Beautiful Mess" type="rss" 
+            xmlUrl="https://cutlefish.substack.com/feed" htmlUrl="https://cutlefish.substack.com"/>
+      <outline text="Data Engineering Central" title="Data Engineering Central" type="rss" 
+            xmlUrl="https://dataengineeringcentral.substack.com/feed" htmlUrl="https://dataengineeringcentral.substack.com"/>
+      <outline text="Data Engineer Things" title="Data Engineer Things" type="rss" 
+            xmlUrl="https://blog.det.life/feed" htmlUrl="https://blog.det.life?source=rss----f2ba5b8f6eb3---4"/>
+      <outline text="Ju Data Engineering Newsletter" title="Ju Data Engineering Newsletter" type="rss" 
+            xmlUrl="https://juhache.substack.com/feed" htmlUrl="https://juhache.substack.com"/>
+</body>
+</opml>
